@@ -19,37 +19,47 @@ rss_name=`basename ${rss_link}`
 mecab_bin=${rootdir}/apps/mecab/bin/mecab
 thread_size=8
 vector_size=300
+dicts="ipa neologd"
+
 # Make data directory
 if [ ! -e ${datadir} ]; then
     mkdir -p ${datadir}
 fi
-# Update mecab dictionary
-cd apps/mecab-ipadic-neologd
-git reset --hard `git log -2|grep "^commit"|awk -F" " '{print $2}'|head -n 1`
-git pull
+
+The MIT License (MIT)
+# Update mecab neologd dictionary
+cd apps
+rm -rf mecab-ipadic-neologd
+git clone https://github.com/neologd/mecab-ipadic-neologd.git
+cd mecab-ipadic-neologd
 yes no |\
 ./bin/install-mecab-ipadic-neologd -n --asuser
 cd ..
+
 # Set dictionary paths
 dict_ipa=${rootdir}/apps/mecab/lib/mecab/dic/ipadic
 echo ${dict_ipa}
 dict_neologd=${rootdir}/apps/mecab-ipadic-neologd/build/`ls -l ${rootdir}/apps/mecab-ipadic-neologd/build/ |rev |awk -F" " '{print $1}' |rev |head -n 2 |tail -n 1`
 echo ${dict_neologd}
+
 # Preserve dictionaries
 cd ${datadir}
 cp -r ${dict_ipa} ./
 cp -r ${dict_neologd} ./
 cd ..
+
 # Download RSS
 cd ${datadir}
 wget ${rss_link} --no-check-certificate
 cd ..
+
 # Download articles
 cd ${datadir}
 article_file=`cat ${datadir}/${rss_name} |grep "href" |awk -F"\"" '{print $2}'`
 echo ${article_file}
 wget ${article_file} --no-check-certificate
 cd ..
+
 # Extract tokenized texts
 cd ${datadir}
 python ${rootdir}/apps/wikiextractor/WikiExtractor.py `basename ${article_file}`
@@ -57,6 +67,7 @@ cat text/*/* |\
 gzip -c \
 > jawiki.gz
 cd ..
+
 ## IPA
 cd ${datadir}
 gzip -dc jawiki.gz |\
@@ -65,6 +76,7 @@ ${mecab_bin} \
 -d ${dict_ipa} \
 > ${datadir}/jawiki.ipa
 cd ..
+
 ## Neologd
 cd ${datadir}
 gzip -dc jawiki.gz |\
@@ -73,9 +85,10 @@ mecab \
 -d ${dict_neologd} \
 > ${datadir}/jawiki.neologd
 cd ..
+
 # Learn vectors
 cd ${datadir}
-dicts="ipa neologd"
+
 ## fastText
 for suffix in ${dicts}; do
     ${rootdir}/apps/fastText/fasttext \
@@ -86,22 +99,23 @@ for suffix in ${dicts}; do
     -thread ${thread_size} &
 done
 wait
+
 ## word2vec
 for suffix in ${dicts}; do
     ${rootdir}/apps/word2vec/bin/word2vec \
         -train ${datadir}/jawiki.${suffix} \
-        -output ${datadir}/jawiki.${suffix}.w2v.bin \
+        -output ${datadir}/jawiki.${suffix}.w2v.txt \
         -size ${vector_size} \
         -window 5 \
         -sample 1e-4 \
         -negative 5 \
         -hs 0 \
-        -binary 1 \
         -cbow 0 \
         -iter 3 \
         -threads ${thread_size} &
 done
 wait
+
 ## Glove
 for suffix in ${dicts}; do
     # Create vocab
@@ -133,6 +147,7 @@ for suffix in ${dicts}; do
     -verbose 2 &
 done
 wait
+
 ## Compress tokenized texts
 cd ${datadir}
 gzip ${datadir}/jawiki.ipa
@@ -143,3 +158,61 @@ for suffix in ${dicts}; do
 done
 rm -rf ${datadir}/text
 cd ..
+
+# Generate links
+
+# word2vec
+for suffix in ${dicts}; do
+    python ${rootdir}/apps/retrofitting/extract_wp_category_links.py \
+        --input_path ${datadir}/jawiki-20191201-pages-articles.xml.bz2 \
+        --vector_path ${datadir}/jawiki.${suffix}.w2v.txt \
+        --output_path ${datadir}/jawiki.${suffix}.category_links.w2v.txt
+done
+
+# fasttext
+for suffix in ${dicts}; do
+    python ${rootdir}/apps/retrofitting/extract_wp_category_links.py \
+        --input_path ${datadir}/jawiki-20191201-pages-articles.xml.bz2 \
+        --vector_path ${datadir}/jawiki.${suffix}.fasttext.vec \
+        --output_path ${datadir}/jawiki.${suffix}.category_links.fasttext.txt
+done
+
+# GloVe
+for suffix in ${dicts}; do
+    python ${rootdir}/apps/retrofitting/extract_wp_category_links.py \
+        --input_path ${datadir}/jawiki-20191201-pages-articles.xml.bz2 \
+        --vector_path ${datadir}/jawiki.${suffix}.glove.txt \
+        --output_path ${datadir}/jawiki.${suffix}.category_links.glove.txt
+done
+
+# Retrofit
+
+# word2vec
+for suffix in ${dicts}; do
+    python ${rootdir}/apps/retrofitting/retrofit.py \
+        -i ${datadir}/jawiki.${suffix}.w2v.txt \
+        -l ${datadir}/jawiki.${suffix}.category_links.w2v.txt \
+        -o ${datadir}/jawiki.${suffix}.category_links.retrofit.w2v.txt \
+        -n 10 &
+done
+wait
+
+# fasttext
+for suffix in ${dicts}; do
+    python ${rootdir}/apps/retrofitting/retrofit.py \
+        -i ${datadir}/jawiki.${suffix}.fasttext.vec \
+        -l ${datadir}/jawiki.${suffix}.category_links.fasttext.txt \
+        -o ${datadir}/jawiki.${suffix}.category_links.retrofit.fasttext.txt \
+        -n 10 &
+done
+wait
+
+# GloVe
+for suffix in ${dicts}; do
+    python ${rootdir}/apps/retrofitting/retrofit.py \
+        -i ${datadir}/jawiki.${suffix}.glove.txt \
+        -l ${datadir}/jawiki.${suffix}.category_links.glove.txt \
+        -o ${datadir}/jawiki.${suffix}.retrofit.glove.txt \
+        -n 10 &
+done
+wait

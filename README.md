@@ -11,6 +11,7 @@
 - git
 - diff
 - wget
+- curl
 - python 3.x
 
 ## 使い方
