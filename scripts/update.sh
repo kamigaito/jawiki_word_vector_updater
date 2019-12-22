@@ -212,7 +212,7 @@ for suffix in ${dicts}; do
     python ${rootdir}/apps/retrofitting/retrofit.py \
         -i ${datadir}/jawiki.${suffix}.glove.txt \
         -l ${datadir}/jawiki.${suffix}.category_links.glove.txt \
-        -o ${datadir}/jawiki.${suffix}.retrofit.glove.txt \
+        -o ${datadir}/jawiki.${suffix}.category_links.retrofit.glove.txt \
         -n 10 &
 done
 wait
