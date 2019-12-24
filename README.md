@@ -30,6 +30,7 @@
 - [GloVe](https://github.com/stanfordnlp/GloVe)
 - [fastText](https://github.com/facebookresearch/fastText)
 - [WikiExtractor](https://github.com/attardi/wikiextractor)
+- [Retrofit](https://github.com/kamigaito/retrofitting/tree/wikipedia_categories)
 
 ### 単語ベクトルの学習
 
@@ -40,7 +41,7 @@
 ```
 
 ダンプデータの取得と単語ベクトルの学習を一貫して行うため，実行には多くの時間を要する．家庭用デスクトップPCで実行した場合は1日ほどかかる．
-実行後に以下のファイル・ディレクトリが``data/YYYYmmddHH``以下に出力される
+実行後に以下のファイル・ディレクトリが``data/YYYYmmddHH``以下に出力される（中間ファイル等は省略）
 - ``jawiki-YYYYmmdd-pages-articles.xml.bz2`` : ダウンロードされたWikipedia記事ダンプデータ
 - ``jawiki-latest-pages-articles.xml.bz2-rss.xml`` : ダウンロードされたWikipedia記事ダンプデータのRSS
 - ``ipadic`` : 形態素解析で使用されたIPA辞書
@@ -48,16 +49,22 @@
 - ``jawiki.gz`` : タグなどが除去されたWikipedia記事ダンプデータ
 - ``jawiki.ipa.gz`` : IPA辞書による形態素解析実行後のWikipedia記事ダンプデータ
 - ``jawiki.neologd.gz`` : Neologd辞書による形態素解析実行後のWikipedia記事ダンプデータ
-- ``jawiki.ipa.w2v.bin`` : IPA辞書を用いた形態素解析結果から学習されたword2vecのモデル出力
-- ``jawiki.ipa.fasttext.bin`` : IPA辞書を用いた形態素解析結果から学習されたfastTextのモデル出力
+- ``jawiki.ipa.w2v.txt`` : IPA辞書を用いた形態素解析結果から学習されたword2vecのモデル出力
 - ``jawiki.ipa.fasttext.vec`` : IPA辞書を用いた形態素解析結果から学習されたfastTextのモデル出力
+- ``jawiki.ipa.fasttext.bin`` : IPA辞書を用いた形態素解析結果から学習されたfastTextのモデル出力
+- ``jawiki.ipa.glove.txt`` : IPA辞書を用いた形態素解析結果から学習されたGloVeのモデル出力
 - ``jawiki.ipa.glove.bin`` : IPA辞書を用いた形態素解析結果から学習されたGloVeのモデル出力
-- ``jawiki.ipa.vocab`` : IPA辞書を用いた形態素解析結果から学習されたGloVeの語彙辞書
-- ``jawiki.neologd.w2v.bin`` : Neologd辞書を用いた形態素解析結果から学習されたword2vecのモデル出力
-- ``jawiki.neologd.fasttext.bin`` : Neologd辞書を用いた形態素解析結果から学習されたfastTextのモデル出力
+- ``jawiki.neologd.w2v.txt`` : Neologd辞書を用いた形態素解析結果から学習されたword2vecのモデル出力
 - ``jawiki.neologd.fasttext.vec`` : Neologd辞書を用いた形態素解析結果から学習されたfastTextのモデル出力
+- ``jawiki.neologd.fasttext.bin`` : Neologd辞書を用いた形態素解析結果から学習されたfastTextのモデル出力
+- ``jawiki.neologd.glove.txt`` : Neologd辞書を用いた形態素解析結果から学習されたGloVeのモデル出力
 - ``jawiki.neologd.glove.bin`` : Neologd辞書を用いた形態素解析結果から学習されたGloVeのモデル出力
-- ``jawiki.neologd.vocab`` : Neologd辞書を用いた形態素解析結果から学習されたGloVeの語彙辞書
+- ``jawiki.ipa.category_links.retrofit.w2v.txt`` : IPA辞書を用いた形態素解析結果から学習されたword2vecをWikipediaカテゴリでRetrofitしたモデル
+- ``jawiki.ipa.category_links.retrofit.fasttext.vec`` : IPA辞書を用いた形態素解析結果から学習されたfastTextをWikipediaカテゴリでRetrofitしたモデル
+- ``jawiki.ipa.category_links.retrofit.glove.txt`` : IPA辞書を用いた形態素解析結果から学習されたGloVeをWikipediaカテゴリでRetrofitしたモデル
+- ``jawiki.neologd.category_links.retrofit.w2v.txt`` : Neologd辞書を用いた形態素解析結果から学習されたword2vecをWikipediaカテゴリでRetrofitしたモデル
+- ``jawiki.neologd.category_links.retrofit.fasttext.vec`` : Neologd辞書を用いた形態素解析結果から学習されたfastTextをWikipediaカテゴリでRetrofitしたモデル
+- ``jawiki.neologd.category_links.retrofit.glove.txt`` : Neologd辞書を用いた形態素解析結果から学習されたGloVeをWikipediaカテゴリでRetrofitしたモデル
 
 #### 現在の単語ベクトルが最新のWikipediaダンプデータに基づいているかを確認する場合
 
