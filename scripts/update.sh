@@ -26,7 +26,6 @@ if [ ! -e ${datadir} ]; then
     mkdir -p ${datadir}
 fi
 
-The MIT License (MIT)
 # Update mecab neologd dictionary
 cd apps
 rm -rf mecab-ipadic-neologd
