@@ -60,10 +60,10 @@
 - ``jawiki.neologd.glove.txt`` : Neologd辞書を用いた形態素解析結果から学習されたGloVeのモデル出力
 - ``jawiki.neologd.glove.bin`` : Neologd辞書を用いた形態素解析結果から学習されたGloVeのモデル出力
 - ``jawiki.ipa.category_links.retrofit.w2v.txt`` : IPA辞書を用いた形態素解析結果から学習されたword2vecをWikipediaカテゴリでRetrofitしたモデル
-- ``jawiki.ipa.category_links.retrofit.fasttext.vec`` : IPA辞書を用いた形態素解析結果から学習されたfastTextをWikipediaカテゴリでRetrofitしたモデル
+- ``jawiki.ipa.category_links.retrofit.fasttext.txt`` : IPA辞書を用いた形態素解析結果から学習されたfastTextをWikipediaカテゴリでRetrofitしたモデル
 - ``jawiki.ipa.category_links.retrofit.glove.txt`` : IPA辞書を用いた形態素解析結果から学習されたGloVeをWikipediaカテゴリでRetrofitしたモデル
 - ``jawiki.neologd.category_links.retrofit.w2v.txt`` : Neologd辞書を用いた形態素解析結果から学習されたword2vecをWikipediaカテゴリでRetrofitしたモデル
-- ``jawiki.neologd.category_links.retrofit.fasttext.vec`` : Neologd辞書を用いた形態素解析結果から学習されたfastTextをWikipediaカテゴリでRetrofitしたモデル
+- ``jawiki.neologd.category_links.retrofit.fasttext.txt`` : Neologd辞書を用いた形態素解析結果から学習されたfastTextをWikipediaカテゴリでRetrofitしたモデル
 - ``jawiki.neologd.category_links.retrofit.glove.txt`` : Neologd辞書を用いた形態素解析結果から学習されたGloVeをWikipediaカテゴリでRetrofitしたモデル
 
 #### 現在の単語ベクトルが最新のWikipediaダンプデータに基づいているかを確認する場合
