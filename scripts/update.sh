@@ -163,7 +163,7 @@ cd ..
 # word2vec
 for suffix in ${dicts}; do
     python ${rootdir}/apps/retrofitting/extract_wp_category_links.py \
-        --input_path `basename ${article_file}` \
+        --input_path ${datadir}/`basename ${article_file}` \
         --vector_path ${datadir}/jawiki.${suffix}.w2v.txt \
         --output_path ${datadir}/jawiki.${suffix}.category_links.w2v.txt
 done
@@ -171,7 +171,7 @@ done
 # fasttext
 for suffix in ${dicts}; do
     python ${rootdir}/apps/retrofitting/extract_wp_category_links.py \
-        --input_path `basename ${article_file}` \
+        --input_path ${datadir}/`basename ${article_file}` \
         --vector_path ${datadir}/jawiki.${suffix}.fasttext.vec \
         --output_path ${datadir}/jawiki.${suffix}.category_links.fasttext.txt
 done
@@ -179,7 +179,7 @@ done
 # GloVe
 for suffix in ${dicts}; do
     python ${rootdir}/apps/retrofitting/extract_wp_category_links.py \
-        --input_path `basename ${article_file}` \
+        --input_path ${datadir}/`basename ${article_file}` \
         --vector_path ${datadir}/jawiki.${suffix}.glove.txt \
         --output_path ${datadir}/jawiki.${suffix}.category_links.glove.txt
 done
