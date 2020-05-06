@@ -1,3 +1,4 @@
 apps/*
 data/*
+tmp.sh
 !.gitkeep

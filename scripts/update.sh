@@ -162,7 +162,7 @@ cd ..
 
 # word2vec
 for suffix in ${dicts}; do
-    python ${rootdir}/apps/retrofitting/extract_wp_category_links.py \
+    python ${rootdir}/apps/rf4wpc/extract_wp_category_links.py \
         --input_path ${datadir}/`basename ${article_file}` \
         --vector_path ${datadir}/jawiki.${suffix}.w2v.txt \
         --output_path ${datadir}/jawiki.${suffix}.category_links.w2v.txt
@@ -170,7 +170,7 @@ done
 
 # fasttext
 for suffix in ${dicts}; do
-    python ${rootdir}/apps/retrofitting/extract_wp_category_links.py \
+    python ${rootdir}/apps/rf4wpc/extract_wp_category_links.py \
         --input_path ${datadir}/`basename ${article_file}` \
         --vector_path ${datadir}/jawiki.${suffix}.fasttext.vec \
         --output_path ${datadir}/jawiki.${suffix}.category_links.fasttext.txt
@@ -178,7 +178,7 @@ done
 
 # GloVe
 for suffix in ${dicts}; do
-    python ${rootdir}/apps/retrofitting/extract_wp_category_links.py \
+    python ${rootdir}/apps/rf4wpc/extract_wp_category_links.py \
         --input_path ${datadir}/`basename ${article_file}` \
         --vector_path ${datadir}/jawiki.${suffix}.glove.txt \
         --output_path ${datadir}/jawiki.${suffix}.category_links.glove.txt
@@ -188,27 +188,23 @@ done
 
 # word2vec
 for suffix in ${dicts}; do
-    python ${rootdir}/apps/retrofitting/retrofit.py \
+    python ${rootdir}/apps/rf4wpc/retrofit.py \
         -i ${datadir}/jawiki.${suffix}.w2v.txt \
         -l ${datadir}/jawiki.${suffix}.category_links.w2v.txt \
         -o ${datadir}/jawiki.${suffix}.category_links.retrofit.w2v.txt \
         -n 10 &
 done
-wait
-
 # fasttext
 for suffix in ${dicts}; do
-    python ${rootdir}/apps/retrofitting/retrofit.py \
+    python ${rootdir}/apps/rf4wpc/retrofit.py \
         -i ${datadir}/jawiki.${suffix}.fasttext.vec \
         -l ${datadir}/jawiki.${suffix}.category_links.fasttext.txt \
         -o ${datadir}/jawiki.${suffix}.category_links.retrofit.fasttext.txt \
         -n 10 &
 done
-wait
-
 # GloVe
 for suffix in ${dicts}; do
-    python ${rootdir}/apps/retrofitting/retrofit.py \
+    python ${rootdir}/apps/rf4wpc/retrofit.py \
         -i ${datadir}/jawiki.${suffix}.glove.txt \
         -l ${datadir}/jawiki.${suffix}.category_links.glove.txt \
         -o ${datadir}/jawiki.${suffix}.category_links.retrofit.glove.txt \

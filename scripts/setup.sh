@@ -4,7 +4,7 @@ cd apps
 git clone https://github.com/dav/word2vec.git
 git clone https://github.com/stanfordnlp/GloVe.git
 git clone https://github.com/facebookresearch/fastText.git
-git clone https://github.com/kamigaito/retrofitting.git
+git clone https://github.com/kamigaito/rf4wpc.git
 git clone https://github.com/taku910/mecab.git
 git clone https://github.com/neologd/mecab-ipadic-neologd.git 
 git clone https://github.com/attardi/wikiextractor.git
@@ -14,8 +14,6 @@ cd ../GloVe
 make
 cd ../fastText
 make
-cd ../retrofitting
-git checkout wikipedia_categories
 cd ../mecab/mecab
 ./configure --prefix=${ROOTDIR}/apps/mecab --with-charset=utf8
 make
