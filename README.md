@@ -30,7 +30,7 @@
 - [GloVe](https://github.com/stanfordnlp/GloVe)
 - [fastText](https://github.com/facebookresearch/fastText)
 - [WikiExtractor](https://github.com/attardi/wikiextractor)
-- [Retrofit](https://github.com/kamigaito/rf4wpc.git)
+- [rtf4wpc](https://github.com/kamigaito/rf4wpc.git)
 
 ### 単語ベクトルの学習
 
